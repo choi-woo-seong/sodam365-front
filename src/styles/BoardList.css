@@ -1,0 +1,42 @@
+.board-list-container {
+  width: 80%;
+  margin: auto;
+  text-align: center;
+}
+
+.board-title {
+  font-size: 24px;
+  font-weight: bold;
+  color: #12406c;
+  margin-bottom: 10px;
+}
+
+.board-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.board-table th, .board-table td {
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+
+.board-table th {
+  background-color: #12406c;
+  color: white;
+}
+
+.post-link {
+  text-decoration: none;
+  color: #12406c;
+  font-weight: bold;
+}
+
+.pagination {
+  margin-top: 10px;
+}
+
+.page-number {
+  margin: 0 5px;
+  cursor: pointer;
+}

@@ -1,0 +1,54 @@
+.mypage-container {
+  width: 450px;
+  margin: auto;
+  text-align: left;
+}
+
+.mypage-container input {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+}
+
+
+.btn1 {
+  text-align: right;
+}
+
+
+.submit-btn1 {
+  background: #808080;
+  color: white;
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+  border-radius: 10px;
+  width: 80px;
+  height: 35px;
+  border-color: #004466;
+  border-width: thin;
+  border-style: solid;
+  text-align: center;
+  display: flex;
+  align-items:center; 
+  justify-content: center;
+  
+}
+
+
+.submit-btn2 {
+  background: #004466;
+  color: white;
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+  border-radius: 10px;
+  width: 80px;
+  height: 35px;
+  border-color: #004466;
+  border-width: thin;
+  border-style: solid;
+  display: flex;
+  align-items:center; 
+  justify-content: center;
+}
