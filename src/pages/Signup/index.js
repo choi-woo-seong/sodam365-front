@@ -2,86 +2,215 @@ import React, { useState, useRef } from "react";
 import "./Signup.css";
 
 const Signup = () => {
-  // 폼의 입력값을 저장하는 상태 변수
+
+
+  // 일반폼 입력 상태
   const [formData, setFormData] = useState({
-    id: "", 
-    password: "", 
-    confirmPassword: "",
-    name: "", 
-    address: "", 
-    email: "", 
-    contact: "",
+    nUserid: "",
+    nPassword: "",
+    nName: "",
+    address: "",
+    nEmail: "",
+    nPhone1: "", // 휴대전화 추가
+    nPhone2: "", // 휴대전화 추가
   });
 
-  // 각 입력 필드에 대한 오류 메시지를 저장하는 상태 변수
+  // 에러 메시지 상태
   const [errors, setErrors] = useState({});
-
-  // 선택된 탭 (일반 회원 또는 사업자 회원)을 저장하는 상태 변수
-  const [selectedTab, setSelectedTab] = useState("general");
-
-  // 아이디 중복 확인 상태 변수 (아이디가 사용 가능한지 여부)
+  const [selectedTab, setSelectedTab] = useState("business");
   const [isIdAvailable, setIsIdAvailable] = useState(null);
 
-  // 각 입력 필드에 대한 ref를 생성하여 포커스 등을 관리할 수 있도록 함
+  // 일반입력 필드 포커스 관리
   const refs = {
-    id: useRef(null),
+    nUserid: useRef(null),
+    nPassword: useRef(null),
+    confirmPassword: useRef(null),
+    nName: useRef(null),
+    address: useRef(null),
+    nEmail: useRef(null),
+    nPhone1 : useRef(null),
+    nPhone2 : useRef(null),
+  };
+
+    // 사업자 폼 입력 상태
+    const [formData1, setFormData1] = useState({
+      userid: "",
+      password: "",
+      name: "",
+      ownerloc: "",
+      email: "",
+      ownername: "", // 사업자명 추가
+      ownernum: "", // 사업자번호 추가
+      phone1: "", // 휴대전화 추가
+      phone2:"", // 휴대전화 추가
+
+    });
+
+    
+  //사업자입력 필드 포커스 관리
+  const refs1 = {
+    userid: useRef(null),
     password: useRef(null),
     confirmPassword: useRef(null),
     name: useRef(null),
-    address: useRef(null),
+    ownerloc: useRef(null),
     email: useRef(null),
-    contact: useRef(null),
+    ownername: useRef(null),
+    ownernum: useRef(null),
+    phone1: useRef(null),
+    phone2 : useRef(null),
   };
 
-  // 폼의 입력값이 변경될 때마다 호출되는 함수
+  
+
+  // 일반입력값 변경 핸들러
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // 폼 유효성 검사 함수
+    // 사업자 입력값 변경 핸들러
+  const handleChange1 = (e) => {
+    setFormData1({ ...formData1, [e.target.name]: e.target.value });
+  };
+
+  // 폼 유효성 검사
   const validateForm = () => {
-    const newErrors = {}; // 오류 메시지를 저장할 객체
-    // formData의 모든 필드에 대해 값이 비어있으면 오류를 기록
+    const newErrors = {};
     Object.keys(formData).forEach((key) => {
-      if (!formData[key]) newErrors[key] = "입력하세요."; // 필드가 비어있으면 "입력하세요." 메시지 추가
+      if (!formData[key]) newErrors[key] = "입력하세요.";
     });
 
-    // 비밀번호와 비밀번호 확인이 일치하는지 검사
-    if (formData.password !== formData.confirmPassword) {
-      newErrors.confirmPassword = "비밀번호가 일치하지 않습니다."; // 불일치 시 오류 메시지 추가
+    if (formData.nPassword !== formData.confirmPassword) {
+      newErrors.confirmPassword = "비밀번호가 일치하지 않습니다.";
     }
 
-    setErrors(newErrors); // 오류 메시지 상태 업데이트
+    setErrors(newErrors);
 
-    // 첫 번째 오류가 발생한 필드에 포커스를 설정
     if (Object.keys(newErrors).length > 0) {
-      refs[Object.keys(newErrors)[0]].current.focus(); // 첫 번째 오류 필드로 포커스 이동
+      refs[Object.keys(newErrors)[0]].current.focus();
     }
 
-    // 오류가 없으면 true, 오류가 있으면 false 반환
     return Object.keys(newErrors).length === 0;
   };
 
-  // 폼 제출 시 호출되는 함수
+  // 회원가입 처리
   const handleSubmit = (e) => {
-    e.preventDefault(); // 기본 제출 동작을 막음
+    e.preventDefault();
     if (validateForm() && isIdAvailable) {
-      alert("회원가입 완료!"); // 모든 유효성 검사 통과 시 회원가입 완료 메시지
+      alert("회원가입 완료!");
     } else {
-      alert("빈칸을 확인해주세요."); // 유효성 검사 실패 시 알림
+      alert("빈칸을 확인해주세요.");
     }
   };
 
-  // 아이디 중복 확인 함수
-  const checkIdAvailability = () => {
-    // 예시로 존재하는 아이디들 (실제 데이터베이스에서 확인해야 함)
-    const existingIds = ["user123", "testuser", "admin"];
-    setIsIdAvailable(!existingIds.includes(formData.id)); // 아이디가 이미 존재하는지 확인
+ 
+
+    // 중복확인 함수
+  const handleDuplicateCheck = () => {
+      if(formData.n_userid.length !== 0){
+        fetch(`http://192.168.0.102:8080/api/users/check-duplicate?n_userid=${formData.nUserid}`)
+            .then(response => response.json())
+            .then(data => {
+              if (data) {
+                  // 이미 존재하는 아이디
+                  setIsIdAvailable(false);
+                  alert("이미 사용 중인 아이디입니다.");
+              } else {
+                  // 사용 가능한 아이디
+                  setIsIdAvailable(true);
+                  alert("사용 가능한 아이디입니다.");
+              }
+
+            })
+            .catch(error => {
+                console.error("중복 확인 오류 발생:", error);
+            });
+      }else{
+        alert("아이디를 입력하지 않았습니다.");
+      }
+    };
+
+      // 중복확인 함수
+  const handleDuplicateCheck2 = () => {
+    if(formData1.userid.length !== 0){
+      fetch(`http://192.168.0.102:8080/api/users/check-duplicate2?userid=${formData1.userid}`)
+          .then(response => response.json())
+          .then(data => {
+            if (data) {
+            
+                // 이미 존재하는 아이디
+                setIsIdAvailable(false);
+                alert("이미 사용 중인 아이디입니다.");
+            } else {
+                // 사용 가능한 아이디
+                setIsIdAvailable(true);
+                alert("사용 가능한 아이디입니다.");
+            }
+
+          })
+          .catch(error => {
+              console.error("중복 확인 오류 발생:", error);
+          });
+      }else{
+        alert("아이디를 입력하지 않았습니다");
+      }
+  };
+  
+  const handleSingup = (e) => {
+    e.preventDefault();
+    console.log("회원가입 데이터:", formData1);
+  
+    fetch("http://192.168.0.102:8080/auth/register/buser", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify(formData1),
+        mode: 'cors', // CORS 요청을 명확히 설정
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                console.log("회원가입 성공!", data);
+            } else {
+                console.error("회원가입 실패", data.message);
+            }
+        })
+        .catch(error => {
+            console.error("서버와 연결 중 오류 발생:", error);
+        });
+  };
+
+  const handleNomalSingup = (e) => {
+    e.preventDefault();
+    console.log("회원가입 데이터:", formData);
+  
+    fetch("http://192.168.0.102:8080/auth/register/nuser", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify(formData), 
+        mode: 'cors', // CORS 요청을 명확히 설정
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                console.log("회원가입 성공!", data);
+            } else {
+                console.error("회원가입 실패", data.message);
+            }
+        })
+        .catch(error => {
+            console.error("서버와 연결 중 오류 발생:", error);
+        });
   };
 
   return (
     <div className="signup-container">
-      {/* 탭 버튼 (일반 회원, 사업자 회원 선택) */}
+      {/* 탭 버튼 */}
       <div className="signup-buttons">
         <button onClick={() => setSelectedTab("business")} className={selectedTab === "business" ? "active" : ""}>
           사업자 회원
@@ -91,100 +220,113 @@ const Signup = () => {
         </button>
       </div>
 
-      {/* '일반 회원' 탭일 때만 보이는 회원가입 폼 */}
+      {/* 일반 회원가입 폼 */}
       {selectedTab === "general" && (
         <form onSubmit={handleSubmit}>
-          {/* 아이디 입력 필드 */}
           <div className="input-container">
-            <label>아이디:</label>
-            <input 
-              type="text" 
-              name="id" 
-              ref={refs.id} 
-              value={formData.id} 
-              onChange={handleChange} 
-            />
-            <button type="button" onClick={checkIdAvailability}>중복확인</button>
+            <label>아이디</label>
+            <input type="text" name="nUserid" ref={refs.nUserid} value={formData.nUserid} onChange={handleChange} />
+            <button type="button" onClick={handleDuplicateCheck}>중복확인</button>
           </div>
-
-          {/* 아이디 중복 검사 결과 */}
           {isIdAvailable === false && <div className="error-msg">아이디가 이미 존재합니다.</div>}
           {isIdAvailable === true && <div className="success-msg">사용 가능한 아이디입니다.</div>}
 
-          {/* 비밀번호 입력 필드 */}
           <div className="input-container">
-            <label>비밀번호:</label>
-            <input 
-              type="password" 
-              name="password" 
-              ref={refs.password} 
-              value={formData.password} 
-              onChange={handleChange} 
-            />
+            <label>비밀번호</label>
+            <input type="password" name="nPassword" ref={refs.nPassword} value={formData.nPassword} onChange={handleChange} />
           </div>
 
-          {/* 비밀번호 확인 입력 필드 */}
           <div className="input-container">
-            <label>비밀번호 확인:</label>
-            <input 
-              type="password" 
-              name="confirmPassword" 
-              ref={refs.confirmPassword} 
-              value={formData.confirmPassword} 
-              onChange={handleChange} 
-            />
+            <label>비밀번호 확인</label>
+            <input type="password" name="confirmPassword" ref={refs.confirmPassword} value={formData.confirmPassword}/>
           </div>
 
-          {/* 이름 입력 필드 */}
           <div className="input-container">
-            <label>이름:</label>
-            <input 
-              type="text" 
-              name="name" 
-              ref={refs.name} 
-              value={formData.name} 
-              onChange={handleChange} 
-            />
+            <label>이름</label>
+            <input type="text" name="nName" ref={refs.nName} value={formData.nName} onChange={handleChange} />
           </div>
 
-          {/* 주소 입력 필드 */}
           <div className="input-container">
-            <label>주소:</label>
-            <input 
-              type="text" 
-              name="address" 
-              ref={refs.address} 
-              value={formData.address} 
-              onChange={handleChange} 
-            />
+            <label>주소</label>
+            <input type="text" name="address" ref={refs.address} value={formData.address} onChange={handleChange} />
           </div>
 
-          {/* 이메일 입력 필드 */}
           <div className="input-container">
-            <label>이메일:</label>
-            <input 
-              type="email" 
-              name="email" 
-              ref={refs.email} 
-              value={formData.email} 
-              onChange={handleChange} 
-            />
+            <label>이메일</label>
+            <input type="email" name="nEmail" ref={refs.nEmail} value={formData.nEmail} onChange={handleChange} />
           </div>
 
-          {/* 연락처 입력 필드 */}
           <div className="input-container">
-            <label>연락처:</label>
-            <input 
-              type="text" 
-              name="contact" 
-              ref={refs.contact} 
-              value={formData.contact} 
-              onChange={handleChange} 
-            />
+            <label>연락처1</label>
+            <input type="text" name="nPhone1" ref={refs.nPhone1} value={formData.nPhone1} onChange={handleChange} />
           </div>
 
-          {/* 제출 버튼 */}
-          <button type="submit">가입</button>
+          <div className="input-container">
+            <label>연락처2</label>
+            <input type="text" name="nPhone2" ref={refs.nPhone2} value={formData.nPhone2} onChange={handleChange} />
+          </div>
+
+          <button type="submit" className="submit"   onClick={handleNomalSingup} >가입</button>
+        </form>
+      )}
+
+      {/* 사업자 회원가입 폼 */}
+      {selectedTab === "business" && (
+        <form onSubmit={handleSubmit}>
+          <div className="input-container">
+            <label>아이디</label>
+            <input type="text" name="userid" ref={refs1.userid} value={formData1.userid} onChange={handleChange1} />
+            <button type="button" onClick={handleDuplicateCheck2}>중복확인</button>
+          </div>
+          {isIdAvailable === false && <div className="error-msg">아이디가 이미 존재합니다.</div>}
+          {isIdAvailable === true && <div className="success-msg">사용 가능한 아이디입니다.</div>}
+
+          <div className="input-container">
+            <label>비밀번호</label>
+            <input type="password" name="password" ref={refs1.password} value={formData1.password} onChange={handleChange1} />
+          </div>
+
+          <div className="input-container">
+            <label>비밀번호 확인</label>
+            <input type="password" name="confirmPassword" ref={refs1.confirmPassword} value={formData1.confirmPassword} onChange={handleChange1} />
+          </div>
+
+          <div className="input-container">
+            <label>이름</label>
+            <input type="text" name="name" ref={refs1.name} value={formData1.name} onChange={handleChange1} />
+          </div>
+
+          <div className="input-container">
+            <label>사업자명</label>
+            <input type="text" name="ownername" ref={refs1.ownername} value={formData1.ownername} onChange={handleChange1} />
+          </div>
+
+          <div className="input-container">
+            <label>사업자번호</label>
+            <input type="text" name="ownernum" ref={refs1.ownernum} value={formData1.ownernum} onChange={handleChange1} />
+          </div>
+
+          <div className="input-container">
+            <label>사업자 주소</label>
+            <input type="text" name="ownerloc" ref={refs1.ownerloc} value={formData1.ownerloc} onChange={handleChange1} />
+          </div>
+
+          <div className="input-container">
+            <label>이메일</label>
+            <input type="email" name="email" ref={refs1.email} value={formData1.email} onChange={handleChange1} />
+          </div>
+
+          <div className="input-container">
+            <label>전화번호</label>
+            <input type="text" name="phone1" ref={refs1.phone1} value={formData1.phone1} onChange={handleChange1} />
+          </div>
+
+          <div className="input-container">
+            <label>휴대전화</label>
+            <input type="text" name="phone2" ref={refs1.phone2} value={formData1.phone2} onChange={handleChange1} />
+          </div>
+
+          <button type="submit" className="submit" onClick={handleSingup}>가입</button>
         </form>
       )}
     </div>

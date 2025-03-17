@@ -13,31 +13,10 @@ body {
   background-color: white;
 }
 
-/* 로고 스타일 */
-.nav-logo {
-  font-size: 50px;
-  font-weight: bold;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-grow: 1; /* 로고가 가운데에 오도록 확장 */
-  margin-right: -280px;
-}
-
 .nav-logo .highlight {
   font-size: 75px;
-  color: #003f5c;
+  color: #003f66;
   margin-left: 5px;
-}
-
-/* 사용자 메뉴 */
-.nav-user {
-  display: flex;
-  align-items: center;
-  gap: 30px;
-  color: black;
-  font-size: 20px;
-  margin-right: 50px;
 }
 
 /* 사용자 아이콘 */
@@ -45,15 +24,84 @@ body {
   font-size: 40px;
 }
 
+/* 기본 설정 (큰 화면) */
+.nav-logo {
+  font-size: 50px;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
+  margin-right: -310px;
+}
+
+.nav-user {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  color: black;
+  font-size: 20px;
+  margin-right: 50px;
+} 
+
+/* 📌 화면 크기가 1024px 이하일 때 */
+@media (max-width: 1024px) {
+  .nav-logo {
+    font-size: 40px; /* 로고 크기 축소 */
+    margin-right: -150px; /* 간격 조정 */
+  }
+
+  .nav-user {
+    font-size: 18px; /* 글자 크기 축소 */
+    gap: 15px; /* 요소 간격 줄이기 */
+    margin-right: 20px;
+  }
+}
+
+/* 📌 화면 크기가 768px 이하일 때 */
+@media (max-width: 768px) {
+  .nav-logo {
+    font-size: 30px; /* 로고 더 축소 */
+    margin-right: 0; /* 마진 제거 */
+  }
+
+  .nav-user {
+    font-size: 16px;
+    gap: 10px;
+    margin-right: 10px;
+  }
+}
+
+/* 📌 화면 크기가 600px 이하일 때 (두 줄 배치) */
+@media (max-width: 600px) {
+  .nav-top {
+    flex-direction: column; /* 세로 정렬 */
+    align-items: center;
+  }
+
+  .nav-logo {
+    font-size: 35px;
+    margin-bottom: 10px; /* 아래 여백 추가 */
+  }
+
+  .nav-user {
+    justify-content: center;
+    margin: 0; /* 중앙 정렬 */
+    width: 100%;
+    gap: 20px;
+  }
+}
+
 /* 네비게이션 메뉴 */
 .nav-menu {
   display: flex;
   justify-content: space-between; /* 버튼을 균등 배치 */
   align-items: center;
-  background-color: #003f5c;
+  background-color: #003f66;
   width: 100%;
   padding: 15px 0;
   position: relative;
+  margin-top: 15px;
 }
 
 /* 각 버튼을 균등한 크기로 설정 */
