@@ -210,25 +210,29 @@ margin-top: -5px;
 /* 🔹 최근 본 목록 스타일 */
 .recently-viewed {
   position: fixed;
-  right: 250px;
+  right: 130px;
   top: 300px;
-  width: 250px;
+  width: 200px;
   background-color: #f4f4f4;
-  padding: 15px;
+  color: black;
+  padding: 0px;
   border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 10px 8px rgba(0, 0, 0, 0.1);
   z-index: 1000; /* 다른 요소보다 위에 표시 */
   max-height: 80vh;
   overflow-y: auto;
  text-align: center;
-  
+}
+
+.recently-viewed li {
+  padding: 15px 3px;
 }
 
 
 
 
 /* 미디어 쿼리: 화면 크기가 1024px 이하일 때 최근 본 목록 숨기기 */
-@media screen and (max-width: 2100px) {
+@media screen and (max-width: 1900px) {
   .recently-viewed {
     display: none !important; /* 강제로 숨김 처리 */
   }

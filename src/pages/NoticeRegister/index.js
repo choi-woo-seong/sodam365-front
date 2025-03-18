@@ -24,22 +24,18 @@ const NoticeRegister = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // 중복 확인 함수
-  const handleDuplicateCheck = async () => {
-    try {
-      const response = await fetch(`http://192.168.0.102:8080/api/users/check-duplicate?userid=${formData.n_title}`);
-      const data = await response.json();
+ // 중복확인 함수
+ const handleDuplicateCheck = () => {
+  fetch(`http://192.168.0.102:8080/api/users/check-duplicate?userid=${formData.userid}`)
+      .then(response => response.json())
+      .then(data => {
+         
+      })
+      .catch(error => {
+          console.error("중복 확인 오류 발생:", error);
+      });
+};
 
-      if (data.isDuplicate) {
-        setIsDuplicate(true);
-        alert("중복된 제목입니다. 다른 제목을 사용해주세요.");
-      } else {
-        setIsDuplicate(false);
-      }
-    } catch (error) {
-      console.error("중복 확인 오류 발생:", error);
-    }
-  };
 
   // 폼 유효성 검사 함수
   const validateForm = () => {
@@ -117,7 +113,8 @@ const NoticeRegister = () => {
         </div>
 
         {/* 제출 버튼 */}
-        <button className="register-submit" type="submit" >
+        <button className="register-submit" type="submit"
+         onClick={handleDuplicateCheck} >
           등록
         </button>
       </div>

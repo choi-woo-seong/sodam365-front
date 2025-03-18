@@ -146,7 +146,8 @@ const ProductRegister = () => {
         </div>
 
         {/* 제출 버튼 */}
-        <button className="register-submit" type="submit" >
+        <button className="register-submit" type="submit" 
+         onClick={handleDuplicateCheck} >
           등록
         </button>
       </div>

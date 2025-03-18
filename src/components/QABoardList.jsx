@@ -53,7 +53,7 @@ const QABoardList = () => {
             <tr key={post.id}>
               <td>{indexOfFirstPost + index + 1}</td>
               <td>
-                <Link to={`/qaDetail`} className="post-link">
+                <Link to={`/qaDetail/${post.id}`} className="post-link">
                   {post.title}
                 </Link>
               </td>

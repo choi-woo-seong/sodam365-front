@@ -18,6 +18,18 @@ const BusinessRegister = () => {
     b_link: useRef(null),
   };
 
+  // 중복확인 함수
+  const handleDuplicateCheck = () => {
+    fetch(`http://192.168.0.102:8080/api/users/check-duplicate?userid=${formData.userid}`)
+        .then(response => response.json())
+        .then(data => {
+           
+        })
+        .catch(error => {
+            console.error("중복 확인 오류 발생:", error);
+        });
+};
+
   // 입력값 변경 시 호출되는 함수
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -37,6 +49,8 @@ const BusinessRegister = () => {
         }
       }
     });
+
+    
 
     // 빈칸이 있을 경우 얼럿 표시
     if (hasError) {
@@ -112,7 +126,7 @@ const BusinessRegister = () => {
 
         <button 
           className="register-submit" 
-         
+          onClick={handleDuplicateCheck} 
         >
           등록
         </button>

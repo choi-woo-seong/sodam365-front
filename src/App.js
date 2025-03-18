@@ -60,6 +60,15 @@ function App() {
           <Route path="/noticeDetail" element={<><Nav /><NoticeDatail /><Footer /></>} />
           <Route path="/productDetail" element={<><Nav /><ProductDetail /><Footer /></>} />
           <Route path="/qaDetail" element={<><Nav /><QADetail /><Footer /></>} />
+
+
+        <Route path="/bankDetail/:id" element={<><Nav /><BankDetail /><Footer /></>} />
+        <Route path="/businessDetail/:id" element={<><Nav /><BusinessDetail /><Footer /></>} />
+        <Route path="/communityDetail/:id" element={<><Nav /><CommunityDetail /><Footer /></>} />
+        <Route path="/noticeDetail/:id" element={<><Nav /><NoticeDatail /><Footer /></>} />
+        <Route path="/productDetail/:id" element={<><Nav /><ProductDetail /><Footer /></>} />
+        <Route path="/qaDetail/:id" element={<><Nav /><QADetail /><Footer /></>} />
+
         </Routes>
       </div>
     </Router>

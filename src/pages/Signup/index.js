@@ -1,8 +1,9 @@
 import React, { useState, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import "./Signup.css";
 
 const Signup = () => {
-
+  const navigate = useNavigate();
 
   // 일반폼 입력 상태
   const [formData, setFormData] = useState({
@@ -107,7 +108,7 @@ const Signup = () => {
 
     // 중복확인 함수
   const handleDuplicateCheck = () => {
-      if(formData.n_userid.length !== 0){
+      if(formData.nUserid.length !== 0){
         fetch(`http://192.168.0.102:8080/api/users/check-duplicate?n_userid=${formData.nUserid}`)
             .then(response => response.json())
             .then(data => {
@@ -171,8 +172,9 @@ const Signup = () => {
     })
         .then(response => response.json())
         .then(data => {
-            if (data.success) {
-                console.log("회원가입 성공!", data);
+            if (data) {
+                alert("회원가입 성공!");
+                navigate("/businessLogin")
             } else {
                 console.error("회원가입 실패", data.message);
             }
@@ -197,8 +199,9 @@ const Signup = () => {
     })
         .then(response => response.json())
         .then(data => {
-            if (data.success) {
-                console.log("회원가입 성공!", data);
+            if (data) {
+              alert("회원가입 성공!");
+              navigate("/personLogin")
             } else {
                 console.error("회원가입 실패", data.message);
             }
@@ -257,12 +260,12 @@ const Signup = () => {
           </div>
 
           <div className="input-container">
-            <label>연락처1</label>
+            <label>전화번호</label>
             <input type="text" name="nPhone1" ref={refs.nPhone1} value={formData.nPhone1} onChange={handleChange} />
           </div>
 
           <div className="input-container">
-            <label>연락처2</label>
+            <label>휴대전화</label>
             <input type="text" name="nPhone2" ref={refs.nPhone2} value={formData.nPhone2} onChange={handleChange} />
           </div>
 

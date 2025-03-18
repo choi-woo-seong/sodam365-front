@@ -18,6 +18,18 @@ const CommunityRegister = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+    // 중복확인 함수
+    const handleDuplicateCheck = () => {
+      fetch(`http://192.168.0.102:8080/api/users/check-duplicate?userid=${formData.userid}`)
+          .then(response => response.json())
+          .then(data => {
+             
+          })
+          .catch(error => {
+              console.error("중복 확인 오류 발생:", error);
+          });
+  };
+
   // 폼 유효성 검사 함수
   const validateForm = () => {
     const newErrors = {};
@@ -32,6 +44,8 @@ const CommunityRegister = () => {
     
     return Object.keys(newErrors).length === 0;
   };
+
+  
 
   // 폼 제출 시 호출되는 함수
   const handleSubmit = (e) => {
@@ -88,7 +102,7 @@ const CommunityRegister = () => {
         <button 
           className="register-submit" 
           type="submit" 
-       
+          onClick={handleDuplicateCheck}
         >
           등록
         </button>
